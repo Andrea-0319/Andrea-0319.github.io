@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:;">
-    <meta property="og:title" content="Andrea Scalora - AI Engineer">
-    <meta property="og:description"
-        content="Portfolio and CV of Andrea Scalora, AI Engineer and Architect. Discover my projects and skills.">
-    <!-- <meta property="og:image" content="URL_A_UNA_TUA_FOTO_O_LOGO.png"> -->
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';">
+    <meta name="description"
+        content="Andrea Scalora - AI Engineer & Architect. BSc in Artificial Intelligence, specialized in LLM and Agentic AI systems.">
     <title>Andrea Scalora - AI Engineer</title>
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2300d4ff'/%3E%3Cstop offset='100%25' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='10' y='15' width='35' height='30' rx='4' fill='url(%23g)'/%3E%3Crect x='55' y='15' width='35' height='30' rx='4' fill='url(%23g)' opacity='0.7'/%3E%3Crect x='10' y='55' width='35' height='30' rx='4' fill='url(%23g)' opacity='0.5'/%3E%3Crect x='55' y='55' width='35' height='30' rx='4' fill='url(%23g)' opacity='0.3'/%3E%3C/svg%3E">
@@ -68,9 +70,7 @@
             box-sizing: border-box;
         }
 
-        *:focus {
-            outline: none;
-        }
+        /* Focus outline preservato per accessibilità — personalizzato su :focus-visible */
 
         *:focus-visible {
             outline: 2px solid var(--accent-cyan);
@@ -1234,8 +1234,6 @@
             transform: translateY(-8px) scale(1.02);
         }
 
-
-
         .noise-overlay {
             position: fixed;
             top: 0;
@@ -1444,37 +1442,25 @@
 
         @media (max-width: 768px) {
             .projects-carousel {
-                padding: 0 10px;
-            }
-
-            .carousel-slide {
-                grid-template-columns: 1fr;
-                scroll-snap-align: start;
+                padding: 0 40px;
             }
 
             .projects-track {
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                overscroll-behavior-x: contain;
-                scrollbar-width: none;
-                /* Hide scrollbar for Firefox */
-                -webkit-overflow-scrolling: touch;
-                transform: none !important;
-                /* Override JS translate */
-            }
-
-            .projects-track::-webkit-scrollbar {
-                display: none;
-                /* Hide scrollbar for Chrome/Safari */
+                grid-template-columns: 1fr;
             }
 
             .projects-carousel .project-card {
                 width: calc(100% - 20px);
-                margin: 0 auto;
             }
 
             .carousel-arrow {
-                display: none;
+                width: 40px;
+                height: 40px;
+            }
+
+            .carousel-arrow svg {
+                width: 20px;
+                height: 20px;
             }
         }
     </style>
@@ -1498,12 +1484,12 @@
         </div>
     </div>
     <div class="progress-bar"></div>
-    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+    <div class="back-to-top" id="backToTopBtn" role="button" aria-label="Torna in cima" tabindex="0">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
         </svg>
     </div>
-    <div class="theme-toggle" onclick="toggleTheme()">
+    <div class="theme-toggle" id="themeToggleBtn" role="button" aria-label="Cambia tema" tabindex="0">
         <svg class="moon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
@@ -1553,14 +1539,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    <a href="mailto:andreasc1903@gmail.com">andreasc1903@gmail.com</a>
+                    <a id="contact-email" href="#" aria-label="Invia email">Loading...</a>
                 </div>
                 <div class="contact-item">
                     <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
-                    <a href="tel:+393519698150">+39 351 969 8150</a>
+                    <a id="contact-phone" href="#" aria-label="Chiama">Loading...</a>
                 </div>
                 <div class="contact-item">
                     <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1676,7 +1662,7 @@
                 <h2>Academy Projects</h2>
             </div>
             <div class="projects-carousel" id="projectsCarousel">
-                <button class="carousel-arrow prev" onclick="moveCarousel(-1)">
+                <button class="carousel-arrow prev" id="carouselPrevBtn" aria-label="Slide precedente">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
@@ -1872,7 +1858,7 @@
                         </div>
                     </div>
                 </div>
-                <button class="carousel-arrow next" onclick="moveCarousel(1)">
+                <button class="carousel-arrow next" id="carouselNextBtn" aria-label="Slide successiva">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
@@ -1979,11 +1965,29 @@
         </section>
 
         <footer>
-            <p>Made with Agent Orchestration <3< /p>
+            <p>Made with Agents Orchestration &lt;3</p>
         </footer>
     </div>
 
     <script>
+        /* === Anti-scraping: offuscamento contatti === */
+        (function () {
+            const u = 'andreasc1903';
+            const d = 'gmail.com';
+            const emailEl = document.getElementById('contact-email');
+            if (emailEl) {
+                emailEl.href = 'mai' + 'lto:' + u + '@' + d;
+                emailEl.textContent = u + '@' + d;
+            }
+            const p1 = '+39 351';
+            const p2 = ' 969 8150';
+            const phoneEl = document.getElementById('contact-phone');
+            if (phoneEl) {
+                phoneEl.href = 'te' + 'l:+39351' + '9698150';
+                phoneEl.textContent = p1 + p2;
+            }
+        })();
+
         let currentSlide = 0;
         let totalSlides = 0;
 
@@ -2056,11 +2060,6 @@
             updateCarousel();
         }
 
-        <img src="data:image/jpeg;base64,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 Gregorio.
-```
-I will insert the provided code block into the `script` section of the HTML document.
-
-```html
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
@@ -2069,25 +2068,31 @@ I will insert the provided code block into the `script` section of the HTML docu
             localStorage.setItem('theme', newTheme);
         }
 
-        // Loader and initialization
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const loader = document.querySelector('.loader');
+        function hideLoader() {
+            const loader = document.querySelector('.loader');
+            if (loader) {
                 loader.classList.add('hidden');
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    initAnimations(); // Assuming initAnimations is defined elsewhere or will be added
-                }, 300);
-            }, 100);
-        });
+                setTimeout(() => loader.remove(), 500);
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             initCarousel();
+
+            /* === Event listeners sostitutivi degli onclick inline === */
+            document.getElementById('backToTopBtn')?.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            document.getElementById('themeToggleBtn')?.addEventListener('click', toggleTheme);
+            document.getElementById('carouselPrevBtn')?.addEventListener('click', () => moveCarousel(-1));
+            document.getElementById('carouselNextBtn')?.addEventListener('click', () => moveCarousel(1));
 
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
             }
+
+            setTimeout(hideLoader, 1500);
 
             const progressBar = document.querySelector('.progress-bar');
             const gridBg = document.querySelector('.grid-bg');
